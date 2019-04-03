@@ -10,7 +10,7 @@ var data = d3.json('classData.json').then(function(d){
 
 
 
-var classWidth = screen.width;
+var classWidth = screen.width * 2 / 3;
 var classHeight = screen.height;
 
 var class = d3.select('body').select("allStudent").select("svg").attr('width',svgwidth).attr('height',svgheight);
