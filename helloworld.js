@@ -53,6 +53,7 @@ var drawFinalGrade=function(data)
                        .data(finalArray)
                        .enter()
                        .append("rect")
+                       .attr("id","penguinbar")
                        .attr("fill",function(d,i){return color(i);})
                        .attr("x",function(d,i){return xScale(i);})
                        .attr("y",function(d,i){return yScale(d);})
@@ -69,7 +70,9 @@ var drawFinalGrade=function(data)
                          d3.select("#finaltooltip").select("#name")
                           .text(function(){return penguinName[i];});
                          d3.select("#finaltooltip").classed("hidden", false);})
-                        .on("mouseout", function() {d3.select("#finaltooltip").classed("hidden", true);});
+                        .on("mouseout", function() {d3.select("#finaltooltip").classed("hidden", true);})
+                        .on("click",function(d,i){
+                          updateSingle(data[i])})
   var legend=svg.append("g")
                 .classed("legend",true)
                 .attr("transform","translate("+margins.left+","+(screen.height-margins.bottom+2)+")");
