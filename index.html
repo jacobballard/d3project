@@ -22,6 +22,34 @@
         box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
         pointer-events: none;
       }
+    #HWtooltip {
+        position: absolute;
+        width: 130px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+      }
+    #Quiztooltip {
+        position: absolute;
+        width: 130px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+      }
     #penguinbar:hover {
       border: 5px solid black;
     }
@@ -33,8 +61,13 @@
       <div style="float:left;background:black" id="viewStudentGraph"><svg></svg></div>
       <div style="float:right;background:yellow"id="viewStudentInfo"><svg></svg></div> -->
       <div id="finaltooltip" class="hidden">
-        <p><span id="name"></span>'s final grade <strong><span id="value"></span></strong></p>
-</div>
+        <p><span id="name"></span>'s final grade <strong><span id="value"></span></strong></p></div>
+      <div id="HWtooltip" class="hidden">
+        <p>Day <strong><span id="day"></span></strong></p>
+        <p>HW Grade <strong><span id="value"></span>/50</strong></p></div>
+      <div id="Quiztooltip" class="hidden">
+        <p>Day <strong><span id="day"></span></strong></p>
+        <p>Quiz Grade <strong><span id="value"></span>/10</strong></p></div>
   </body>
   <!-- <script type="text/javascript" src='script.js'></script> -->
   <script type="text/javascript" src='helloworld.js'></script>

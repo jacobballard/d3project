@@ -149,6 +149,18 @@ var drawSingle=function(data)
        .attr("cy",function(d){return yScale(d.grade);})
        .attr("r","4")
        .attr("fill",color(2))
+       .on("mouseover", function(d,i) {
+         var xPosition = parseFloat(d3.select(this).attr("cx"))+80;
+         var yPosition = parseFloat(d3.select(this).attr("cy"))+330;
+         d3.select("#HWtooltip")
+          .style("left", xPosition + "px")
+          .style("top", yPosition + "px")
+          .select("#value")
+          .text(d.grade);
+         d3.select("#HWtooltip").classed("hidden", false);
+         d3.select("#HWtooltip").select("#day")
+          .text(function(){return d.day;});})
+        .on("mouseout", function() {d3.select("#HWtooltip").classed("hidden", true);})
   }
   var drawSingleQuiz=function(data)
   {
@@ -200,6 +212,18 @@ var drawSingle=function(data)
        .attr("cy",function(d){return yScale(d.grade);})
        .attr("r","4")
        .attr("fill",color(2))
+       .on("mouseover", function(d,i) {
+         var xPosition = parseFloat(d3.select(this).attr("cx"))+580;
+         var yPosition = parseFloat(d3.select(this).attr("cy"))+330;
+         d3.select("#Quiztooltip")
+          .style("left", xPosition + "px")
+          .style("top", yPosition + "px")
+          .select("#value")
+          .text(d.grade);
+         d3.select("#Quiztooltip").classed("hidden", false);
+         d3.select("#Quiztooltip").select("#day")
+          .text(function(){return d.day;});})
+        .on("mouseout", function() {d3.select("#Quiztooltip").classed("hidden", true);})
   }
   drawSingleHW(data)
   drawSingleQuiz(data)
