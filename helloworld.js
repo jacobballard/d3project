@@ -30,9 +30,6 @@ var drawFinalGrade=function(data)
   var width=screen.width-margins.right-margins.left
   var color=d3.scaleOrdinal(d3.schemeSet2)
   var penguinName=["Bookworm","Crafty","Cyclist","Drunken","Easter","EBook","Farmer","Gentleman","Judo","Moana","Painter","Grill","Pharaoh","Pilot","Pinga","Pixie","Sailor","Santa", "Tauch", "Tux","Valentine","Valentine Ocal","Wizard"]
-  // var color=d3.scaleOrdinal
-  //             .domain([0,22])
-  //             .range("#217D6F")
   var xScale=d3.scaleLinear()
      .domain([0,22])
      .nice()
@@ -60,6 +57,7 @@ var drawFinalGrade=function(data)
                        .attr("width",width/finalArray.length)
                        .attr("height",function(d){return height-yScale(d);})
                        .on("mouseover", function(d,i) {
+                         d3.select(this).attr("stroke", "black")
                          var xPosition = parseFloat(d3.select(this).attr("x"))+3.65*width/finalArray.length;
                          var yPosition = parseFloat(d3.select(this).attr("y"));
                          d3.select("#finaltooltip")
@@ -70,7 +68,9 @@ var drawFinalGrade=function(data)
                          d3.select("#finaltooltip").select("#name")
                           .text(function(){return penguinName[i];});
                          d3.select("#finaltooltip").classed("hidden", false);})
-                        .on("mouseout", function() {d3.select("#finaltooltip").classed("hidden", true);})
+                        .on("mouseout", function() {
+                          d3.select(this).attr("stroke", "none")
+                          d3.select("#finaltooltip").classed("hidden", true);})
                         .on("click",function(d,i){
                           updateSingle(data[i])})
   var legend=svg.append("g")
@@ -85,8 +85,7 @@ var drawFinalGrade=function(data)
                         .attr("xlink:href", function(d){return d.picture})
                         .attr("width",30)
                         .attr("height",30)
-                        .on("click",function(d,i){
-                          updateSingle(data[i])})
+                        .on("click",function(d,i){updateSingle(data[i])})
   var yAxis=d3.axisLeft(yScale)
   svg.append("g").classed("yAxis",true)
      .call(yAxis)
@@ -150,6 +149,7 @@ var drawSingle=function(data)
        .attr("r","4")
        .attr("fill",color(2))
        .on("mouseover", function(d,i) {
+         d3.select(this).attr("r","6").attr("stroke","black")
          var xPosition = parseFloat(d3.select(this).attr("cx"))+80;
          var yPosition = parseFloat(d3.select(this).attr("cy"))+330;
          d3.select("#HWtooltip")
@@ -160,7 +160,9 @@ var drawSingle=function(data)
          d3.select("#HWtooltip").classed("hidden", false);
          d3.select("#HWtooltip").select("#day")
           .text(function(){return d.day;});})
-        .on("mouseout", function() {d3.select("#HWtooltip").classed("hidden", true);})
+        .on("mouseout", function() {
+          d3.select(this).attr("stroke","none").attr("r","4")
+          d3.select("#HWtooltip").classed("hidden", true);})
   }
   var drawSingleQuiz=function(data)
   {
@@ -213,6 +215,7 @@ var drawSingle=function(data)
        .attr("r","4")
        .attr("fill",color(2))
        .on("mouseover", function(d,i) {
+         d3.select(this).attr("stroke","black").attr("r","6")
          var xPosition = parseFloat(d3.select(this).attr("cx"))+580;
          var yPosition = parseFloat(d3.select(this).attr("cy"))+330;
          d3.select("#Quiztooltip")
@@ -223,7 +226,9 @@ var drawSingle=function(data)
          d3.select("#Quiztooltip").classed("hidden", false);
          d3.select("#Quiztooltip").select("#day")
           .text(function(){return d.day;});})
-        .on("mouseout", function() {d3.select("#Quiztooltip").classed("hidden", true);})
+        .on("mouseout", function() {
+          d3.select(this).attr("stroke","none").attr("r","4")
+          d3.select("#Quiztooltip").classed("hidden", true);})
   }
   drawSingleHW(data)
   drawSingleQuiz(data)
