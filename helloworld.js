@@ -1,5 +1,6 @@
 d3.json("classData.json").then(function(data){
   drawFinalGrade(data)
+  drawInfo(data)
   drawSingle(data)
 },function(err){console.log(err);})
 
@@ -8,18 +9,26 @@ var getFinalArray=function(d){
   var finals=[]
   d.forEach(function(d){finals.push(getFinalGrade(d))})
   return finals;}
-
+var getaveQuiz=function(d){
+  var totalQuiz=0
+  d.quizes.forEach(function(d){totalQuiz+=d.grade/d.max*100})
+  return aveQuiz=totalQuiz/d.quizes.length
+}
+var getaveHW=function(d){
+  var totalHW=0
+  d.homework.forEach(function(d){totalHW+=d.grade/d.max*100})
+  return aveHW=totalHW/d.homework.length
+}
+var getaveTest=function(d){
+  var totalTest=0
+  d.test.forEach(function(d){totalTest+=d.grade/d.max*100})
+  return aveTest=totalTest/d.test.length
+}
 var getFinalGrade=function(d){
   var final=d.final[0].grade
-  var totalQuiz=0
-  var totalHW=0
-  var totalTest=0
-  d.quizes.forEach(function(d){totalQuiz+=d.grade/d.max*100})
-  d.homework.forEach(function(d){totalHW+=d.grade/d.max*100})
-  d.test.forEach(function(d){totalTest+=d.grade/d.max*100})
-  var aveQuiz=totalQuiz/d.quizes.length
-  var aveHW=totalHW/d.homework.length
-  var aveTest=totalTest/d.test.length
+  var aveQuiz=getaveQuiz(d)
+  var aveHW=getaveHW(d)
+  var aveTest=getaveTest(d)
   return Math.round((.15*aveQuiz+.15*aveHW+.4*aveTest+.3*final)*100)/100}
 
 var drawFinalGrade=function(data)
@@ -72,7 +81,8 @@ var drawFinalGrade=function(data)
                           d3.select(this).attr("stroke", "none")
                           d3.select("#finaltooltip").classed("hidden", true);})
                         .on("click",function(d,i){
-                          updateSingle(data[i])})
+                          updateSingle(data[i])
+                          updateInfo(data,i)})
   var legend=svg.append("g")
                 .classed("legend",true)
                 .attr("transform","translate("+margins.left+","+(screen.height-margins.bottom+2)+")");
@@ -93,7 +103,7 @@ var drawFinalGrade=function(data)
 }
 var drawSingle=function(data)
 {
-  var screen={width:500,height:400}
+  var screen={width:500,height:300}
   var margins = {top: 20, right: 40, bottom: 40, left: 70}
   var height=screen.height-margins.top-margins.bottom
   var width=screen.width-margins.right-margins.left
@@ -235,7 +245,7 @@ var drawSingle=function(data)
 }
 var updateSingle=function(data)
 {
-  var screen={width:500,height:400}
+  var screen={width:500,height:300}
   var margins = {top: 20, right: 40, bottom: 40, left: 70}
   var height=screen.height-margins.top-margins.bottom
   var width=screen.width-margins.right-margins.left
@@ -310,4 +320,80 @@ var updateSingle=function(data)
   }
   updateSingleHW(data)
   updateSingleQuiz(data)
+}
+ var drawInfo=function(data)
+ {
+  var aveQuiz=getaveQuiz(data[0])
+  var aveHW=getaveHW(data[0])
+  var test1=data[0].test[0].grade
+  var test2=data[0].test[1].grade
+  var final=data[0].final[0].grade
+  var finalgrade=getFinalGrade(data[0])
+  var screen={width:400,height:400}
+  var margins = {top: 20, right: 40, bottom: 40, left: 20}
+  var height=screen.height-margins.top-margins.bottom
+  var width=screen.width-margins.right-margins.left
+  var color=d3.scaleOrdinal(d3.schemeSet2)
+  var svg=d3.select("body").append("svg")
+            .attr("id","Info")
+            .attr("width",screen.width)
+            .attr("height",screen.height)
+  svg.append("image")
+     .classed("InfoPic",true)
+     .attr("transform","translate("+margins.left+","+margins.top+")")
+     .attr("xlink:href", function(d){return data[0].picture})
+     .attr("width",100)
+     .attr("height",100)
+  svg.append("text")
+     .classed("InfoText",true)
+     .text("Bookworm")
+     .attr("transform","translate("+(margins.left+120)+","+(margins.top+70)+")")
+  svg.append("text")
+     .text("Average Quiz Grade: "+Math.round(aveQuiz/10*100)/100)
+     .classed("GradeText",true)
+     .attr("id","aveQuiz")
+     .attr("transform","translate("+(margins.left)+","+(margins.top+150)+")")
+  svg.append("text")
+     .text("Average HW Grade: "+Math.round(aveHW/2*100)/100)
+     .classed("GradeText",true)
+     .attr("id","aveHW")
+     .attr("transform","translate("+(margins.left)+","+(margins.top+180)+")")
+  svg.append("text")
+     .text("Test 1 Grade: "+Math.round(test1))
+     .classed("GradeText",true)
+     .attr("id","Test1")
+     .attr("transform","translate("+(margins.left)+","+(margins.top+210)+")")
+  svg.append("text")
+     .text("Test 2 Grade: "+Math.round(test2))
+     .classed("GradeText",true)
+     .attr("id","Test2")
+     .attr("transform","translate("+(margins.left)+","+(margins.top+240)+")")
+  svg.append("text")
+     .text("Final Exam Grade: "+Math.round(final))
+     .classed("GradeText",true)
+     .attr("id","finalexam")
+     .attr("transform","translate("+(margins.left)+","+(margins.top+270)+")")
+  svg.append("text")
+     .text("Final Grade: "+Math.round(finalgrade))
+     .classed("GradeText",true)
+     .attr("id","FinalGrade")
+     .attr("transform","translate("+(margins.left)+","+(margins.top+300)+")")
+}
+var updateInfo=function(data,i)
+{
+  var aveQuiz=getaveQuiz(data[i])
+  var aveHW=getaveHW(data[i])
+  var test1=data[i].test[0].grade
+  var test2=data[i].test[1].grade
+  var final=data[i].final[0].grade
+  var finalgrade=getFinalGrade(data[i])
+  var penguinName=["Bookworm","Crafty","Cyclist","Drunken","Easter","EBook","Farmer","Gentleman","Judo","Moana","Painter","Grill","Pharaoh","Pilot","Pinga","Pixie","Sailor","Santa", "Tauch", "Tux","Valentine","Valentine Ocal","Wizard"]
+  d3.select(".InfoPic").attr("xlink:href", data[i].picture)
+  d3.select(".InfoText").text(penguinName[i])
+  d3.select("#aveQuiz").text("Average Quiz Grade: "+Math.round(aveQuiz/10*100)/100)
+  d3.select("#aveHW").text("Average HW Grade: "+Math.round(aveHW/2*100)/100)
+  d3.select("#Test1").text("Test 1 Grade: "+Math.round(test1))
+  d3.select("#Test2").text("Test 2 Grade: "+Math.round(test2))
+  d3.select("#finalexam").text("Final Exam Grade: "+Math.round(final))
+  d3.select("#FinalGrade").text("Final Grade: "+Math.round(finalgrade))
 }
