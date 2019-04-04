@@ -1,15 +1,10 @@
-var data = d3.json('classData.json').then(function(d){
+d3.json("classData.json").then(function(d){data(d)},function(err){console.log(err);});
+
+var data = function(d){
+  classGraph(d)
 
 
-
-  var da = d.map(function(d, i){
-            console.log(d.quizes[i].grade)
-            return d.quizes[i].grade;
-
-});
-
-  console.log(da)
-});
+};
 
 
 
@@ -30,6 +25,46 @@ var margins =
   right:50
 };
 
+var classGraph = function(data){
+
+  var xScale = d3.scaleLinear()
+                 // .domain(d3.extent(data))
+                 .domain([0,23])
+                 .nice()
+                 .range([0,screen.width * .66]);
+
+
+
+class_svg.selectAll("rect")
+     .data(data)
+     .enter()
+     .append("rect")
+     .attr("x", function(d, i){
+       return i * barWidth;
+     })
+     .attr("y", function(d, i){
+       return height - d.amount*10;
+     })
+     .attr("width", barWidth)
+     .attr("height", function(d){
+       return d.amount*10;
+     })
+     .attr("fill", function(d){
+       return d.color;
+     })
+//creates text
+     svg.selectAll("text")
+     .data(colorData)
+     .enter()
+     .append("text")
+     .attr("x", 375)
+     .attr("y", function(d, i){
+       return 75 + 10 * i})
+     .attr("font-size", 10)
+     .text(function(d) {
+       return d.color;
+    })
+}
 
 //var width = svgwidth -margins.left - margins.right;
 //var height = svgheight -margins.top - margins.bottom;
