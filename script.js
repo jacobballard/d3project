@@ -1,32 +1,41 @@
 var data = d3.json('classData.json').then(function(d){
 
-  initialize(d,0);
-  var  = dataset.map(function(k){
 
-             return d.quizes[day].grade;});
 
+  var da = d.map(function(d, i){
+            console.log(d.quizes[i].grade)
+            return d.quizes[i].grade;
+
+});
+
+  console.log(da)
 });
 
 
 
 
-var classWidth = screen.width * 2 / 3;
-var classHeight = screen.height;
+var class_svg = d3.select("#class").select("svg").attr('width',(screen.width * .66)).attr('height',(screen.height * .4));
 
-var class = d3.select('body').select("allStudent").select("svg").attr('width',svgwidth).attr('height',svgheight);
+var selectStudent_svg = d3.select("#selectStudent").select("svg").attr('width',(screen.width * .33)).attr('height',(screen.height * .4));
+
+var viewStudentGraph_svg = d3.select("#viewStudentGraph").select("svg").attr('width',(screen.width * .35)).attr('height',(screen.height * .4));
+
+var viewStudentInfo_svg = d3.select("#viewStudentInfo").select("svg").attr('width',(screen.width * .64)).attr('height',(screen.height * .4));
+
 var margins =
 {
   top:20,
   bottom:50,
   left:50,
   right:50
-}
-
-var width = svgwidth -margins.left - margins.right;
-var height = svgheight -margins.top - margins.bottom;
+};
 
 
-var drawClass = function(data, screen){
+//var width = svgwidth -margins.left - margins.right;
+//var height = svgheight -margins.top - margins.bottom;
+
+
+/*var drawClass = function(data, screen){
   var graphWidth = screen.width / 3
   var graphHeight = screen.height / 2
 
@@ -66,4 +75,4 @@ var drawClass = function(data, screen){
 }
 
 
-drawClass(data, screen)
+drawClass(data, screen)*/
