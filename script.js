@@ -34,27 +34,27 @@ var classGraph = function(data){
                  .range([0,screen.width * .66]);
 
 
-
+var day = 0
 class_svg.selectAll("rect")
-     .data(data)
+     .data(data.map(function(d){
+       return d.quizes[day].grade
+     }))
      .enter()
      .append("rect")
      .attr("x", function(d, i){
-       return i * barWidth;
-     })
-     .attr("y", function(d, i){
-       return height - d.amount*10;
-     })
-     .attr("width", barWidth)
+       return ((screen.width * .65) / i)})
+     .attr("width", ((screen.width * .65) / 23))
      .attr("height", function(d){
-       return d.amount*10;
+       return d;
      })
      .attr("fill", function(d){
        return d.color;
      })
 //creates text
-     svg.selectAll("text")
-     .data(colorData)
+     class_svg.selectAll("text")
+     .data(data.map(function(d){
+       return d.picture
+     }))
      .enter()
      .append("text")
      .attr("x", 375)
