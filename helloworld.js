@@ -60,15 +60,15 @@ var drawFinalGrade=function(data)
                        .on("mouseover", function(d,i) {
                          var xPosition = parseFloat(d3.select(this).attr("x"))+3.65*width/finalArray.length;
                          var yPosition = parseFloat(d3.select(this).attr("y"));
-                         d3.select("#tooltip")
+                         d3.select("#finaltooltip")
                           .style("left", xPosition + "px")
                           .style("top", yPosition + "px")
                           .select("#value")
                           .text(d);
-                         d3.select("#tooltip").select("#name")
+                         d3.select("#finaltooltip").select("#name")
                           .text(function(){return penguinName[i];});
-                         d3.select("#tooltip").classed("hidden", false);})
-                        .on("mouseout", function() {d3.select("#tooltip").classed("hidden", true);});
+                         d3.select("#finaltooltip").classed("hidden", false);})
+                        .on("mouseout", function() {d3.select("#finaltooltip").classed("hidden", true);});
   var legend=svg.append("g")
                 .classed("legend",true)
                 .attr("transform","translate("+margins.left+","+(screen.height-margins.bottom+2)+")");
@@ -81,8 +81,40 @@ var drawFinalGrade=function(data)
                         .attr("xlink:href", function(d){return d.picture})
                         .attr("width",30)
                         .attr("height",30)
+                        .on("click",function(d,i){
+                          updateSingle(data[i])
+                        })
   var yAxis=d3.axisLeft(yScale)
   svg.append("g").classed("yAxis",true)
      .call(yAxis)
      .attr("transform","translate("+(margins.left-5)+","+(margins.top-1)+")")
+  var drawSingle=function(data)
+  {
+    var svg=d3.select("body").append("svg")
+              .attr("id","graphsingle")
+              .attr("width",screen.width)
+              .attr("height",screen.height)
+  }
+  drawSingle(data)
+}
+var drawSingle2=function(data)
+{
+  var screen={width:800,height:400}
+  var margins = {top: 20, right: 40, bottom: 40, left: 70}
+  var height=screen.height-margins.top-margins.bottom
+  var width=screen.width-margins.right-margins.left
+  var color=d3.scaleOrdinal(d3.schemeSet2)
+  var svg=d3.select("body").append("svg")
+            .attr("id","individual")
+            .attr("width",screen.width)
+            .attr("height",screen.height)
+}
+var updateSingle=function(data)
+{
+  var screen={width:800,height:400}
+  var margins = {top: 20, right: 40, bottom: 40, left: 70}
+  var height=screen.height-margins.top-margins.bottom
+  var width=screen.width-margins.right-margins.left
+  var color=d3.scaleOrdinal(d3.schemeSet2)
+  var individual=d3.select("#individual")
 }
