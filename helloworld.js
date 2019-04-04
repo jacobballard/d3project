@@ -28,6 +28,7 @@ var drawFinalGrade=function(data)
   var height=screen.height-margins.top-margins.bottom
   var width=screen.width-margins.right-margins.left
   var color=d3.scaleOrdinal(d3.schemeSet2)
+  var penguinName=["Bookworm","Crafty","Cyclist","Drunken","Easter","EBook","Farmer","Gentleman","Judo","Moana","Painter","Grill","Pharaoh","Pilot","Pinga","Pixie","Sailor","Santa", "Tauch", "Tux","Valentine","Valentine Ocal","Wizard"]
   // var color=d3.scaleOrdinal
   //             .domain([0,22])
   //             .range("#217D6F")
@@ -56,22 +57,18 @@ var drawFinalGrade=function(data)
                        .attr("y",function(d,i){return yScale(d);})
                        .attr("width",width/finalArray.length)
                        .attr("height",function(d){return height-yScale(d);})
-                       // .on("mouseover", function(d) {
-                       //    var xPosition = parseFloat(d3.select(this).attr("x")) + width/8;
-                       //    var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + height / 2;
-                       //   d3.select("#tooltip")
-                       //    .style("left", xPosition + "px")
-                       //    .style("top", yPosition + "px")
-                       //    .select("#value")
-                       //    .text(d.grade);
-                       //   d3.select("#tooltip").select("#name")
-                       //    .text(d.name);
-                       //    d3.select("#tooltip").select("#gradeday")
-                       //     .text(document.getElementById("day").innerText);
-                       //
-                       //   d3.select("#tooltip").classed("hidden", false);})
-                       //  .on("mouseout", function() {
-                       //    d3.select("#tooltip").classed("hidden", true);});
+                       .on("mouseover", function(d,i) {
+                         var xPosition = parseFloat(d3.select(this).attr("x"))+3.65*width/finalArray.length;
+                         var yPosition = parseFloat(d3.select(this).attr("y"));
+                         d3.select("#tooltip")
+                          .style("left", xPosition + "px")
+                          .style("top", yPosition + "px")
+                          .select("#value")
+                          .text(d);
+                         d3.select("#tooltip").select("#name")
+                          .text(function(){return penguinName[i];});
+                         d3.select("#tooltip").classed("hidden", false);})
+                        .on("mouseout", function() {d3.select("#tooltip").classed("hidden", true);});
   var legend=svg.append("g")
                 .classed("legend",true)
                 .attr("transform","translate("+margins.left+","+(screen.height-margins.bottom+2)+")");
@@ -84,4 +81,8 @@ var drawFinalGrade=function(data)
                         .attr("xlink:href", function(d){return d.picture})
                         .attr("width",30)
                         .attr("height",30)
+  var yAxis=d3.axisLeft(yScale)
+  svg.append("g").classed("yAxis",true)
+     .call(yAxis)
+     .attr("transform","translate("+(margins.left-5)+","+(margins.top-1)+")")
 }
