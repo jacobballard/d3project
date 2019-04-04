@@ -37,7 +37,10 @@ var classGraph = function(data){
 var day = 0
 class_svg.selectAll("rect")
      .data(data.map(function(d){
-       return d.quizes[day].grade
+       return (d.quizes[day].grade * 10 * .15) +
+              (d.homework[day].grade * 2 * .15) +
+              (d.final[day].grade * .3) +
+              (d.test[day].grade * .4)
      }))
      .enter()
      .append("rect")
